@@ -1,27 +1,19 @@
-from django.shortcuts import render
-from rest_framework import generics, permissions
+# In pets/views.py
+
+from rest_framework import viewsets, permissions
 from .models import Pet
 from .serializers import PetSerializer
-from .permissions import IsOwnerOrReadOnly # <-- Import the custom permission
 
-class PetListCreateView(generics.ListCreateAPIView):
+class PetViewSet(viewsets.ModelViewSet):
     """
-    API view to list all pets or create a new pet.
+    A viewset for viewing and editing pet instances.
     """
     queryset = Pet.objects.all()
     serializer_class = PetSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated] # Ensures only logged-in users can access
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
-# This new view handles Retrieve (GET one), Update (PUT/PATCH), and Destroy (DELETE)
-class PetDetailView(generics.RetrieveUpdateDestroyAPIView):
-    """
-    API view to retrieve, update, or delete a single pet instance.
-    """
-    queryset = Pet.objects.all()
-    serializer_class = PetSerializer
-    permission_classes = [IsOwnerOrReadOnly] # <-- Use the custom permission
-
+        """
+        Assign the current user to the created_by field.
+        """
+        serializer.save(created_by=self.request.user)

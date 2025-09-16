@@ -1,22 +1,27 @@
-from django.db import models
+# In users/models.py
 
-# Create your models here.
+from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# The User model extends Django's built-in AbstractUser to add custom fields.
-# We're adding fields like phone_no, pincode, gender, city, state, and date.
 class User(AbstractUser):
     """
-    Custom User model to store user-related data.
+    Custom User model strictly following the document's specifications.
     """
-    email = models.EmailField(unique=True, null=False, blank=False)
-    phone_no = models.CharField(max_length=20, null=True, blank=True)
-    pincode = models.CharField(max_length=10, null=True, blank=True)
-    gender = models.CharField(max_length=10, null=True, blank=True)
-    city = models.CharField(max_length=100, null=True, blank=True)
-    state = models.CharField(max_length=100, null=True, blank=True)
-    date = models.DateField(null=True, blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+    GENDER_CHOICES = [
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Other', 'Other'),
+    ]
+
+    # Fields from the document
+    email = models.EmailField(unique=True) # [cite: 9]
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True, blank=True) # 
+    phone_no = models.CharField(max_length=20, null=True, blank=True) # [cite: 12]
+    address = models.TextField(null=True, blank=True) # 
+    pincode = models.BigIntegerField(null=True, blank=True) # 
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True) # [cite: 15]
+
+    # Username and Password fields are handled by AbstractUser [cite: 8, 10]
 
     def __str__(self):
         return self.username

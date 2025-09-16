@@ -1,10 +1,12 @@
-from django.urls import path
-from rest_framework.authtoken.views import obtain_auth_token # <-- IMPORT THIS
+# In users/urls.py
 
-from .views import UserRegistrationView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import UserViewSet
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
-    path('register/', UserRegistrationView.as_view(), name='user-registration'),
-    path('login/', obtain_auth_token, name='user-login'), # <-- ADD THIS LINE
-
+    path('', include(router.urls)),
 ]

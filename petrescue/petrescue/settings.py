@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework', # Add this
     'rest_framework.authtoken', # <-- ADD THIS LINE
     'users',          # Add this
-    'pets',           # Add this
+    'pets',  
+    'core' ,
     
 
 ]
@@ -137,6 +138,6 @@ AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
