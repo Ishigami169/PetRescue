@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'users',          # Add this
     'pets',  
     'core' ,
+    'dashboard',
+    'feedback',
     
 
 ]
